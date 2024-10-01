@@ -28,7 +28,7 @@ const int DB_ENTRY_SIGNAL_PIN_COUNT = 3;
 const SIGNAL_STATE DB_ENTRY_SIGNAL_PIN_STATES[] = {
     { .id=0, .pin_states = (PIN_STATE[DB_ENTRY_SIGNAL_PIN_COUNT]){ Z, Z, Z }, .description="OFF" },
     { .id=1, .pin_states = (PIN_STATE[DB_ENTRY_SIGNAL_PIN_COUNT]){ H, L, L }, .description="ENTRY_HP1_GREEN" },
-    { .id=2, .pin_states = (PIN_STATE[DB_ENTRY_SIGNAL_PIN_COUNT]){ L, H, H }, .description="ENTRY_HP0_RED" },
+    { .id=2, .pin_states = (PIN_STATE[DB_ENTRY_SIGNAL_PIN_COUNT]){ L, H, Z }, .description="ENTRY_HP0_RED" },
     { .id=3, .pin_states = (PIN_STATE[DB_ENTRY_SIGNAL_PIN_COUNT]){ L, L, H }, .description="ENTRY_HP2_YELLOW" },
     {}
 };
