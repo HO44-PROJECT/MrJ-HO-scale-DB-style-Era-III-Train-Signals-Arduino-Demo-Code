@@ -50,7 +50,7 @@ void loop()
   Signal::loop();
 
   // Demo mode with random signal changes and a delay applied between changes from 1s to 3.
-  Signal::demo(1000, 3000, 2000);
+  Signal::demo_seq(1000, 3000, 2000);
 
 }
 

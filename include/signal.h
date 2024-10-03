@@ -73,8 +73,10 @@ public:
     Signal(String description, const SIGNAL_DEFINITION *definition, PIN_ID *wiring);
 
     static void loop();
-    static void demo(long min_delay, long max_delay, long off_delay);
-    static void demo() { demo(0, 0, 0); };
+    static void demo_random(long min_delay, long max_delay, long off_delay);
+    static void demo_random() { demo_random(0, 0, 0); };
+    static void demo_seq(long min_delay, long max_delay, long off_delay);
+    static void demo_seq() { demo_seq(0, 0, 0); };
     void change(int new_state);
     bool changing() { return worker->running(); };
     bool is_off() { return _actual_state == _off_state_id; };

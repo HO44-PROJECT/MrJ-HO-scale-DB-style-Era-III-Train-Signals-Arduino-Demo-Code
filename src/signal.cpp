@@ -129,7 +129,28 @@ Signal::Signal(String description, const SIGNAL_DEFINITION *definition, PIN_ID *
 }
 
 /// @brief Trigger the demo mode
-void Signal::demo(long min_delay, long max_delay, long off_delay) {
+void Signal::demo_seq(long min_delay, long max_delay, long off_delay) {
+
+    // Loop over known signals
+    for (int s = 0; s < _signal_count; s++) {
+
+        // change in progress?
+        if (_signals[s]->changing()) continue;
+
+        // New state choosen randomly
+        int r = (_signals[s]->desired_state() + 1) % _signals[s]->_signal_states_count;
+
+        // Delay after each change
+        _signals[s]->worker->turn_off_end_delay = r == _signals[s]->_off_state_id ? off_delay : 0;
+        _signals[s]->worker->light_up_end_delay = r == _signals[s]->_off_state_id ? 0 : random(min_delay, max_delay);
+
+        _signals[s]->change(r);
+
+    }
+}
+
+/// @brief Trigger the demo mode, round-robin on signal states
+void Signal::demo_random(long min_delay, long max_delay, long off_delay) {
 
     // Loop over known signals
     for (int s = 0; s < _signal_count; s++) {
