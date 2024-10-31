@@ -24,42 +24,20 @@
 #include "signal.h"
 
 // This read-only structure describes the electrical states for each visual for each kind of sinals
-const int DB_ENTRY_SIGNAL_PIN_COUNT = 3;
-const SIGNAL_STATE DB_ENTRY_SIGNAL_PIN_STATES[] = {
-    { .id=0, .pin_states = (PIN_STATE[DB_ENTRY_SIGNAL_PIN_COUNT]){ Z, Z, Z }, .description="OFF" },
-    { .id=1, .pin_states = (PIN_STATE[DB_ENTRY_SIGNAL_PIN_COUNT]){ H, L, L }, .description="ENTRY_HP1_GREEN" },
-    { .id=2, .pin_states = (PIN_STATE[DB_ENTRY_SIGNAL_PIN_COUNT]){ L, H, Z }, .description="ENTRY_HP0_RED" },
-    { .id=3, .pin_states = (PIN_STATE[DB_ENTRY_SIGNAL_PIN_COUNT]){ L, L, H }, .description="ENTRY_HP2_YELLOW" },
-    {}
-};
-const SIGNAL_DEFINITION DB_ENTRY_DEFINITION = {
-    .pins = DB_ENTRY_SIGNAL_PIN_COUNT, .state_count = 4, .off_state = 0, .states = DB_ENTRY_SIGNAL_PIN_STATES
-};
+extern const int DB_ENTRY_SIGNAL_PIN_COUNT;
+extern const SIGNAL_STATE DB_ENTRY_SIGNAL_PIN_STATES[];
+extern const SIGNAL_DEFINITION DB_ENTRY_DEFINITION;
 
 // This read-only structure describes the electrical states for each visual for each kind of sinals
-const int DB_BLOC_SIGNAL_PIN_COUNT = 2;
-const SIGNAL_STATE DB_BLOC_SIGNAL_PIN_STATES[] = {
-    { .id=0, .pin_states = (PIN_STATE[DB_BLOC_SIGNAL_PIN_COUNT]){ Z, Z }, .description="OFF" },
-    { .id=1, .pin_states = (PIN_STATE[DB_BLOC_SIGNAL_PIN_COUNT]){ L, H }, .description="BLOC_HP0_RED" },
-    { .id=2, .pin_states = (PIN_STATE[DB_BLOC_SIGNAL_PIN_COUNT]){ H, L }, .description="BLOC_HP1_GREEN" },
-    {}
-};
-const SIGNAL_DEFINITION DB_BLOC_DEFINITION = {
-    .pins = DB_BLOC_SIGNAL_PIN_COUNT, .state_count = 3, .off_state = 0, .states = DB_BLOC_SIGNAL_PIN_STATES
-};
+extern const int DB_BLOC_SIGNAL_PIN_COUNT;
+extern const SIGNAL_STATE DB_BLOC_SIGNAL_PIN_STATES[];
+extern const SIGNAL_DEFINITION DB_BLOC_DEFINITION;
 
-const int DB_EXIT_SIGNAL_PIN_COUNT = 4;
-const SIGNAL_STATE DB_EXIT_SIGNAL_PIN_STATES[] = {
-    { .id=0, .pin_states = (PIN_STATE[DB_EXIT_SIGNAL_PIN_COUNT]){Z, Z, Z, Z}, .description = "No lamp selected" },
-    { .id=1, .pin_states = (PIN_STATE[DB_EXIT_SIGNAL_PIN_COUNT]){H, L, L, H}, .description = "Hp_Rt_L Main signal Red left + Hp_Rt_R Main signal Red right" },
-    { .id=2, .pin_states = (PIN_STATE[DB_EXIT_SIGNAL_PIN_COUNT]){L, H, L, L}, .description = "Hp_Gr Main signal Green" },
-    { .id=3, .pin_states = (PIN_STATE[DB_EXIT_SIGNAL_PIN_COUNT]){L, H, H, L}, .description = "Hp_Gr Main signal Green + Hp_Ge Main signal Yellow" },
-    { .id=4, .pin_states = (PIN_STATE[DB_EXIT_SIGNAL_PIN_COUNT]){H, L, H, H}, .description = "Hp_Rt_L Main signal Red left + Hp_Ws_L Main signal White left + Hp_Ws_R Main signal White right" },
-    {} // valid C++ way to zero-out a block-scope array; valid in C since C23 - https://en.cppreference.com/w/c/language/array_initialization
-};
-const SIGNAL_DEFINITION DB_EXIT_DEFINITION = {
-    .pins = DB_EXIT_SIGNAL_PIN_COUNT, .state_count = 5, .off_state = 0, .states = DB_EXIT_SIGNAL_PIN_STATES
-};
+extern const int DB_EXIT_SIGNAL_PIN_COUNT;
+extern const SIGNAL_STATE DB_EXIT_SIGNAL_PIN_STATES[];
+extern const SIGNAL_DEFINITION DB_EXIT_DEFINITION;
+
+extern const SIGNAL_DEFINITION DB_NO_DEFINITION;
 
 #endif // __DB_SIGNALS_H__
 

@@ -15,7 +15,7 @@
 //
 // See README.md for hardware, configuration, references, and explanations.
 //
-// db_signal.h: header file for the general signal class
+// signal.h: header file for the general signal class
 //
 #ifndef __SIGNALS_H__
 #define __SIGNALS_H__
@@ -29,7 +29,7 @@ typedef struct
 {
     int id; // id for this state
     const PIN_STATE *pin_states; // states for each pin must match wired_pins
-    String description;     // description for this state
+    const char *description;     // description for this state
 } SIGNAL_STATE;
 
 typedef struct
@@ -46,7 +46,8 @@ class Signal
 
 private:
 
-    String _description;
+    const char * _description;
+    uint16_t _address;
 
     int _desired_state; // The state the user is asking for
     int _actual_state; // The state the worker is working on (asked or off if change from another on state)
@@ -57,7 +58,7 @@ private:
     int _off_state_id; // id of the 'off' state
 
     int _wired_pins_count; // number of wired pins
-    PIN_ID *_wired_pins; // Ardino pin numbers
+    const PIN_ID *_wired_pins; // Ardino pin numbers
 
     PIN_ID *_active_worker_pins; // allocated by the constructor
 
@@ -70,7 +71,7 @@ private:
     void _loop();
 
 public:
-    Signal(String description, const SIGNAL_DEFINITION *definition, PIN_ID *wiring);
+    Signal(uint16_t _address, const char *description, const SIGNAL_DEFINITION *definition, const PIN_ID *wiring);
 
     static void loop();
     static void demo_random(long min_delay, long max_delay, long off_delay);
@@ -78,12 +79,14 @@ public:
     static void demo_seq(long min_delay, long max_delay, long off_delay);
     static void demo_seq() { demo_seq(0, 0, 0); };
     void change(int new_state);
+    static void change(uint16_t address, int new_state);
     bool changing() { return worker->running(); };
     bool is_off() { return _actual_state == _off_state_id; };
     void switch_off() { _desired_state = _off_state_id; };
     int wired_pins() { return _wired_pins_count; };
     int desired_state() { return _desired_state; };
-    String description() { return _description; };
+    const char *description() { return _description; };
+    uint16_t address() { return _address; };
 
     static Signal **_signals; // pointer to all signals created
     static int _signal_count; // grand total of signal instances created

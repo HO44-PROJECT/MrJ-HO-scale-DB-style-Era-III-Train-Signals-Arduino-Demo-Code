@@ -21,4 +21,8 @@
 
 bool operator==(const PIN_STATE &x, const PIN_STATE &y) { return x.id == y.id; };
 
+const PIN_STATE Z = { .id='Z', .mode = INPUT,  .value = LOW  };  // High impedance
+const PIN_STATE L = { .id='L', .mode = OUTPUT, .value = LOW  };  // 0V
+const PIN_STATE H = { .id='H', .mode = OUTPUT, .value = HIGH };  // +5V
+
 // EOF

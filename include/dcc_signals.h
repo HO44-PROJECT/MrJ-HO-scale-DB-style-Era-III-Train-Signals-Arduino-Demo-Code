@@ -15,17 +15,38 @@
 //
 // See README.md for hardware, configuration, references, and explanations.
 //
-// main.h: header file for the main part of this demo. You can configure your own setup from line 30 to line 37
+// dcc_signals.h: header file for the dcc management for signals
 //
-#ifndef __MAIN_H__
-#define __MAIN_H__
 
-#include "signal.h" // coroutines
-#include "dcc_signals.h" // mast init
+#ifndef __DCC_SIGNALS_H__
+#define __DCC_SIGNALS_H__
+
+#include <assert.h>
+#include <Arduino.h>
+#include <stdarg.h>
+
+#include "signal.h"
+
 #include "utils.h"
 #include "db_signal.h"
-#include <NmraDcc.h>
+#include <NmraDcc.h> // needed to register the callback
+#include "definitions.h" // user masts definitions
+#include <boost/preprocessor/repetition/repeat_from_to.hpp> // meta programming to loop over definitions
 
-#endif // __MAIN_H__
+// Macros used for initialization
+#define A(i) Signal_A ## i // Macro for Signal Mast #i Address
+#define T(i) Signal_T ## i // Macro for Signal Mast #i Type
+#define P(i) Signal_P ## i // Macro for Signal Mast #i Pin Wiring
+#define init_signal_wiring(i) _init_signal_wiring ## i  // Local variable name for pin array init. local means duplicate, see init_signal
 
-// EOF
+#define NOTDEFINED 0
+
+// signal init helper.
+#define INIT_SIGNAL(i) init_dcc_signal(A(i), &T(i), P(i), NOPIN)
+
+// link between loop item from boost and signal init helper
+#define INIT_SIGNAL_LOOP_THIS(z,x,_) INIT_SIGNAL(x);
+
+void setup_dcc_signals();
+
+#endif // __DCC_SIGNALS_H__

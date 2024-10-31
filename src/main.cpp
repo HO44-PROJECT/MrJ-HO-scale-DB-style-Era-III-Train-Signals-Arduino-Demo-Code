@@ -19,29 +19,32 @@
 //
 #include "main.h"
 
+NmraDcc Dcc; // DCC management
+
 /// @brief Standard initialization method for Arduino micro-controllers
 void setup()
 {
+  // Only for diagnosis not production
+#ifdef DEBUG
+  Serial.begin(9600);
+#endif
 
-  // Signal class are self-registerd into a static for used in main loops
-  #pragma GCC diagnostic ignored "-Wunused-variable"
-
-  const PIN_ID my_entry_wiring[DB_ENTRY_DEFINITION.pins] = { 3, 4, 5 };
-  new Signal("demo entry signal", &DB_ENTRY_DEFINITION, (PIN_ID *)duplicate(my_entry_wiring, sizeof(my_entry_wiring)));
-
-  const PIN_ID my_bloc_wiring[DB_BLOC_DEFINITION.pins] = { 6, 7 };
-  new Signal("demo bloc signal", &DB_BLOC_DEFINITION, (PIN_ID *)duplicate(my_bloc_wiring, sizeof(my_bloc_wiring)));
-
-  const PIN_ID my_exit_wiring[DB_EXIT_DEFINITION.pins] = { 9, 10, 11, 12 };
-  new Signal("demo exit signal", &DB_EXIT_DEFINITION, (PIN_ID *)duplicate(my_exit_wiring, sizeof(my_exit_wiring)));
+  // Build signal structures from definitions
+  setup_dcc_signals();
 
   // See https://github.com/bxparks/AceRoutine/tree/develop/examples/HelloScheduler
   CoroutineScheduler::setup();
+
+  Dcc.pin(DCC_PIN, 1);  // Enable Pullup
+  Dcc.init(MAN_ID_DIY, 3, FLAGS_DCC_ACCESSORY_DECODER, 0); // Version 3, OpsModeAddressBaseCV=0
 }
 
 /// @brief Standard run method for Arduino micro-controllers
 void loop()
 {
+
+  // DCC main loop
+  Dcc.process();
 
   // Thread emulation main loop
   CoroutineScheduler::loop();
@@ -50,7 +53,7 @@ void loop()
   Signal::loop();
 
   // Demo mode with random signal changes and a delay applied between changes from 1s to 3.
-  Signal::demo_seq(1000, 3000, 2000);
+  // Signal::demo_seq(1000, 3000, 2000);
 
 }
 

@@ -79,7 +79,19 @@ void Signal::_loop()
 
 /// @brief User has asked for a change
 /// @param new_state
+void Signal::change(uint16_t address, int new_state) {
+    for (int s = 0; s < _signal_count; s++) {
+        if (_signals[s]->address() == address) {
+            _signals[s]->change(new_state);
+            break;
+        }
+    }
+}
+
+/// @brief User has asked for a change
+/// @param new_state
 void Signal::change(int new_state) {
+    // TODO: check authorized states
     _desired_state = new_state;
 }
 
@@ -97,7 +109,10 @@ void Signal::_pin_it(int pin, PIN_STATE state) {
 /// @param description user name for this signal
 /// @param definition signal definition
 /// @param wiring physical pins list
-Signal::Signal(String description, const SIGNAL_DEFINITION *definition, PIN_ID *wiring) {
+Signal::Signal(uint16_t address, const char *description, const SIGNAL_DEFINITION *definition, const PIN_ID *wiring) {
+
+    // Address for this mast
+    _address = address;
 
     // User label for this signal
     _description = description;
